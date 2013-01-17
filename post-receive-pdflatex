@@ -1,0 +1,8 @@
+#!/bin/bash
+
+WORKDIR=$1
+cd $WORKDIR
+make pdf &> /dev/null || exit 0
+PDF_FILE=`ls -tr *.pdf | tail -1`
+SUCCESS=$?
+echo "$PDF_FILE"

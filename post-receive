@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# An example hook script for the "post-receive" event.
+#
+# The "post-receive" script is run after receive-pack has accepted a pack
+# and the repository has been updated.  It is passed arguments in through
+# stdin in the form
+#  <oldrev> <newrev> <refname>
+# For example:
+#  aa453216d1b3e49e7f6f98441fa56946ddcd6a20 68f7abf4e6f922807889f52bc043ecd31b79f814 refs/heads/master
+#
+# see contrib/hooks/ for a sample, or uncomment the next line and
+# rename the file to "post-receive".
+read oldrev newrev refname
+REPO='TO_sigcomm2013'
+ORIG_DIR=`pwd`
+PUBLIC_PDF=`echo $newrev | tail -c 13`
+mkdir -p $HOME/tmp
+mkdir -p $HOME/public_html/$REPO
+cd $HOME/tmp
+git clone $HOME/$REPO.git 
+PDF_FILE=`bash $HOME/git-hooks/post-receive-pdflatex $HOME/tmp/$REPO`
+if [ -z $PDF_FILE ]; then
+	exit 1
+fi
+mv $HOME/tmp/$REPO/$PDF_FILE $HOME/public_html/$REPO/$PUBLIC_PDF.pdf
+rm -rf $HOME/tmp/$REPO
+cd $ORIG_DIR
+URL="http://grail.rutgers.edu/~collaborate/$REPO/$PUBLIC_PDF.pdf"
+echo "$oldrev $newrev $refname $URL" | bash $HOME/$REPO.git/hooks/post-receive-email 
+echo "Sent email. PDF is available at $URL"
