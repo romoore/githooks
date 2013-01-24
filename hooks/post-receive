@@ -12,20 +12,21 @@
 # see contrib/hooks/ for a sample, or uncomment the next line and
 # rename the file to "post-receive".
 read oldrev newrev refname
-REPO='TO_sigcomm2013'
+branch=$(git rev-parse --symbolic --abbrev-ref $refname)
+REPO='replaceme'
 ORIG_DIR=`pwd`
 PUBLIC_PDF=`echo $newrev | tail -c 13`
 mkdir -p $HOME/tmp
-mkdir -p $HOME/public_html/$REPO
+mkdir -p $HOME/public_html/$REPO/$branch
 cd $HOME/tmp
-git clone $HOME/$REPO.git 
+git clone -b $branch $HOME/$REPO.git 
 PDF_FILE=`bash $HOME/git-hooks/post-receive-pdflatex $HOME/tmp/$REPO`
 if [ -z $PDF_FILE ]; then
 	exit 1
 fi
-mv $HOME/tmp/$REPO/$PDF_FILE $HOME/public_html/$REPO/$PUBLIC_PDF.pdf
+mv $HOME/tmp/$REPO/$PDF_FILE $HOME/public_html/$REPO/$branch/$PUBLIC_PDF.pdf
 rm -rf $HOME/tmp/$REPO
 cd $ORIG_DIR
-URL="http://grail.rutgers.edu/~collaborate/$REPO/$PUBLIC_PDF.pdf"
+URL="http://grail.rutgers.edu/~collaborate/$REPO/$branch/$PUBLIC_PDF.pdf"
 echo "$oldrev $newrev $refname $URL" | bash $HOME/$REPO.git/hooks/post-receive-email 
 echo "Sent email. PDF is available at $URL"
