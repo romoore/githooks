@@ -28,7 +28,7 @@ The following are required for repository host and repository:
 
         [hooks]
           mailinglist = user@host.com,user@host2.com
-          emailprefix = "Quotes Preserve Spaces "
+          emailprefix = "[GIT] "
 
    Note that the quotes aren't necessary, but will preserve the trailing
    space.
