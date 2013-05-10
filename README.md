@@ -27,8 +27,8 @@ The following are required for repository host and repository:
 1. Update the file 'config' in your bare repository with the following:
 
         [hooks]
-	  		  mailinglist = user@host.com,user@host2.com
-		  		emailprefix = "Quotes Preserve Spaces "
+          mailinglist = user@host.com,user@host2.com
+          emailprefix = "Quotes Preserve Spaces "
 
    Note that the quotes aren't necessary, but will preserve the trailing
    space.
