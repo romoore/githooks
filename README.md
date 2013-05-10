@@ -25,9 +25,10 @@ The following are required for repository host and repository:
 1. Add a file named 'description' in your bare repository.  It should have a
 	 single line of text containing the repository name.
 1. Update the file 'config' in your bare repository with the following:
-      [hooks]
-			  mailinglist = user@host.com,user@host2.com
-				emailprefix = "Quotes Preserve Spaces "
+
+        [hooks]
+	  		  mailinglist = user@host.com,user@host2.com
+		  		emailprefix = "Quotes Preserve Spaces "
 		Note that the quotes aren't necessary, but will preserve the trailing
 		space.
 1. Update the various scripts as appropriate for your host/repository.  I may
