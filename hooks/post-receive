@@ -22,6 +22,8 @@ cd $HOME/tmp
 git clone -b $branch $HOME/$REPO.git 
 PDF_FILE=`bash $HOME/git-hooks/post-receive-pdflatex $HOME/tmp/$REPO`
 if [ -z $PDF_FILE ]; then
+	echo "*** PDF Failed to Build ***\nPlease check your Latex files."
+	rm -rf $HOME/tmp/$REPO
 	exit 1
 fi
 mv $HOME/tmp/$REPO/$PDF_FILE $HOME/public_html/$REPO/$branch/$PUBLIC_PDF.pdf
